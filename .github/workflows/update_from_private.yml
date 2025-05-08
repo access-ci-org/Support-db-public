@@ -1,0 +1,44 @@
+name: Update from Private Repo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-public-repo:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout public repository main branch
+      uses: actions/checkout@v3
+      with:
+        ref: main
+
+    - name: Clone private repository
+      # Must clone the directory into a file outside of where the current public repo is
+      # This prevents overlapping directory issue with rclone (exit code 7)
+      run: |
+        mkdir -p ../priavte-sds-repo
+        git clone https://sandesh-l:${{ secrets.PAT }}@github.com/access-ci-org/Support-ARA-DB.git ../private-db-repo
+        
+    - name: Install rclone
+      run: |
+        curl https://rclone.org/install.sh | sudo bash
+
+    - name: Sync files
+      # exclude the .git directory
+      # exclude the .github directory because it would overwrite this github action as well
+      # exclude readme. Since this is a public-facing repo, it will have a different readme with less technical info
+      # Remove the private-sds-repo directory just in case it tries to push that directory as well
+      run: |
+        rclone sync ../private-sds-repo/ . --exclude='.git/**' --exclude='.github/**' --exclude='README.md' --exclude='data/CSV' --exclude='data/JSON' --exclude='data/SpiderOutput' 
+        rm -r ../private-db-repo
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m "Update from private repo"
+        git push origin main
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT }}
