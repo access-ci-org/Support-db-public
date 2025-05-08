@@ -28,9 +28,9 @@ jobs:
       # exclude the .git directory
       # exclude the .github directory because it would overwrite this github action as well
       # exclude readme. Since this is a public-facing repo, it will have a different readme with less technical info
-      # Remove the private-sds-repo directory just in case it tries to push that directory as well
+      # Remove the private-db-repo directory just in case it tries to push that directory as well
       run: |
-        rclone sync ../private-sds-repo/ . --exclude='.git/**' --exclude='.github/**' --exclude='README.md' --exclude='data/CSV' --exclude='data/JSON' --exclude='data/SpiderOutput' 
+        rclone sync ../private-db-repo/ . --exclude='.git/**' --exclude='.github/**' --exclude='README.md' --exclude='data/CSV' --exclude='data/JSON' --exclude='data/SpiderOutput' 
         rm -r ../private-db-repo
 
     - name: Commit and push changes
