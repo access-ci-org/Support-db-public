@@ -1,0 +1,16 @@
+__pycache__
+data
+env
+.env
+postgres_db
+ai_sftw_text.txt
+db_logfile
+rp_sftw_text.txt
+spider_output.txt
+softwaretable.py
+app/api
+psql_logfile
+logs/
+conda
+sftw.txt
+test.py

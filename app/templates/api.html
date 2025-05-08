@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% block scripts %}
+        <!-- Tagify -->
+        <script src="{{url_for('static', filename='js/tagify.js')}}"></script>
+        <!-- Include/Exclude Radio Button Event Listener -->
+        <script src="{{url_for('static', filename='js/includeExclude.js')}}"></script>
+        <!-- Enable Regex Switch -->
+        <script src="{{url_for('static', filename='js/advSwitch.js')}}"></script>
+        <!-- API Call Script -->
+        <script src="{{url_for('static', filename='js/apiCall.js')}}"></script>
+    {% endblock %}
+
+    <h1> API </h1>
+    <hr class="hr2">
+
+    <form id='API_Form' action="" method="post">
+        <!-- Security Provision -->
+        {{ form.hidden_tag() }}
+        <br>
+
+        <div class="row no-gutters">
+
+            <!-- RP Name -->
+            <div class="col-3" style="position: relative;">
+                <div id="rpDiv" style="display: relative;">
+                    <h4><b>{{ form.rp_name.label }}</b></h4>
+                    <div style="display: flex; flex-direction: column;">
+                        {{ form.rp_name(class_="form-string customTagifyLook", id="rp_name", multiple=True, placeholder="RP Name") }}
+                    </div>
+                    <button type="button" id="rpResetButton" class="btn btn-danger btn-sm resetButton" style="font-size: 10px; position: absolute; top: 7px; right: 12px;">Reset</button>
+                </div>
+            </div>
+
+            <!-- Software Name -->
+            <div class="col-3" style="position: relative;">
+                <div id="softwareDiv" style="display: none;">
+                    <h4><b>{{ form.software_name.label }}</b></h4>
+                    <div style="display: flex; flex-direction: column;">
+                        {{ form.software_name(class_="form-string customTagifyLook", id="software_name", multiple=True, placeholder="Software", style="width: 100%;") }}
+                    </div>
+                    <button type="button" id="softwareResetButton" class="btn btn-danger btn-sm resetButton" style="font-size: 10px; position: absolute; top: 7px; right: 12px;">Reset</button>
+                </div>
+            </div>
+
+
+            <!-- Include Field -->
+            <div class="col-3" style="position: relative;">
+                <div id="includeDiv" style="display: none;">
+                    <h4><b>{{ form.include.label }}</b></h4>
+                    <div style="display: flex; flex-direction: column;">
+                        {{ form.include(class_="form-string customTagifyLook", id="includeTags", multiple=True, placeholder="Include Columns") }}
+                    </div>
+                    <button type="button" id="includeResetButton" class="btn btn-danger btn-sm resetButton" style="font-size: 10px; position: absolute; top: 7px; right: 12px;">Reset</button>
+                </div>
+            </div>
+
+            <!-- Exclude Field -->
+            <div class="col-3" style="position: relative;">
+                <div id="excludeDiv" style="display:none;">
+                    <h4><b>{{ form.exclude.label }}</b></h4>
+                    <div style="display: flex; flex-direction: column;">
+                        {{ form.exclude(class_="form-string customTagifyLook", id="excludeTags", multiple=True, placeholder="Exclude Columns") }}
+                    </div>
+                    <button type="button" id="excludeResetButton" class="btn btn-danger btn-sm resetButton" style="font-size: 10px; position: absolute; top: 7px; right: 12px;">Reset</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <!-- Export Field -->
+        <div class="row mx-0">
+            <div class="col-4"></div>
+            <div class="col-4 d-flex justify-content-center" style="position: relative;">
+                <span style="padding-right: 140px;"><h5><b>{{ form.export_format.label }}</b></h5></span>
+                <button type='button' id="exportResetButton" class='btn btn-danger btn-sm resetButton' style="font-size: 10px; margin-left:50px; float: right;">Reset</button>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-4"></div>
+            <div class="col-4 d-flex justify-content-center" style="display: flex; flex-direction: row;"> 
+                {{ form.export_format(class_="form-select customTagifyLook", id="export_format", default='CSV') }}
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <br>
+        <!-- Regex Field -->
+        <div class="row no-gutters" id="regexDiv" style="align-items: center; margin-left:5px; display: none;"> 
+            <div class="col" style="width:100%; display:flex; justify-content: center;">
+                <h5><b>{{ form.regex.label }}&nbsp;</b></h5>
+                {{ form.regex(class_="customTagifyLook", id="regexForm", placeholder="Enter Regex") }}
+            </div>
+        </div>
+        <br>
+        <!-- API Field -->
+        <div class="row no-gutters" style="align-items: center;">
+            <div class="col" style="width:100%; display:flex; justify-content: center;">
+                <h5><b>{{ form.api_key.label }}&nbsp;</b></h5>{{ form.api_key(class_="customTagifyLook", id="APIKeyForm", placeholder="Enter Your API Key Here") }}
+                {%- for error in form.api_key.errors %}
+                    <span>{{ error }}</span>
+                {%- endfor %}
+            </div>
+        </div>
+        <br>
+        <hr class="hr2">
+        <br>
+        <!-- Alerts go here -->
+        <div class="container" id="alertContainer" style="text-align: center;"></div>
+        <!-- cURL Script Builder -->
+        <div class="row">
+            <div class="col">
+                <p style="font-size: 20px; font-weight: bold; text-align: center;">API cURL Script:</p>
+                <div contenteditable="false" class="customTextBoxTertiary" id="curl_container">
+                    curl https://ara-db.ccs.uky.edu/api=API_0/<!--
+                    ----><span style="color:rgb(230, 2, 2);"><span id="APIKeyCurl">{API_KEY}</span></span>/<!--
+                    ----><span style="color:rgb(167, 136, 0);" id="rpCurl">rp=<span id="rp_name_tags_list">{RP}</span></span><span id="rp_software"></span><!--
+                    ----><span style="color:rgb(0, 153, 255); display: none;" id="softwareCurl">software=<span id="software_name_tags_list">{SOFTWARE}</span></span><!--
+                    ----><span style="color:rgb(50, 39, 153); display: none;" id="regexCurl">&amp;regex(<span id="regex_list">{REGEX}</span>)</span><!--
+                    ----><span style="color:rgb(49, 185, 49); display: none;" id="includeCurl">&include=<span id="include_tags_list">{INCLUDE}</span></span><!--
+                    ----><span style="color:rgb(196, 30, 182); display: none;" id="excludeCurl">&exclude=<span id="exclude_tags_list">{EXCLUDE}</span></span>,<!--
+                    ----><span style="color:rgb(130, 44, 201);">type=<span id="export_tags_list">{FORMAT}</span></span>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- Submit Button -->
+        <div class="row">
+            <div class="col" style="display:flex; justify-content: center;">
+                {{ form.submit(class_="linkButton", id="formSubmit") }}
+            </div> 
+        </div>
+    </form>
+    <br>
+    <hr class="hr2">
+    <b>The Features below this point are a work in progress and will be fully implemented soon!</b>
+    <br>
+    <br>
+    <h2><b>Formatted Query Results</b></h2>
+    <div class="col" style="text-align: right;">
+        <button id="copyButton">Copy</button>
+    </div>
+    <br>
+    <pre><div contenteditable="false" id="formatted_query_output" class="customTextBoxTertiary" style="text-align: left;">
+        Results go here
+    </div></pre>
+    <div id="exportButtonDiv">
+        {% include '_results.html' %}
+    </div>
+    <br>
+    <hr class="hr2">
+    <br>
+    <h2><b>Previous Queries</b></h2>
+    <br>
+    {% for query in queries|reverse %}
+        {% include '_query.html' %}
+    {% endfor %}
+    <div contenteditable="false" id="previous_queries" class="customTextBoxTertiary" style="text-align: left;">
+        Under Construction
+    </div>
+
+    <!-- Placeholder containers for Tagify Values from PostgreSQL -->
+    <!-- Fix this when time allows (Fetch values directly) -->
+    <input type="hidden"  id="software_name_import" value="{{ ', '.join(softwares) }}">
+    <input type="hidden"  id="rp_name_import" value="{{ ', '.join(rps_list) }}">
+
+
+    <script>
+        // Update API Key in cURL Script
+        document.addEventListener('DOMContentLoaded', function() {
+            const APIKeyForm = document.getElementById('APIKeyForm');
+            const APIKeyCurl = document.getElementById('APIKeyCurl');
+
+            APIKeyForm.addEventListener('input', function() {
+                APIKeyCurl.textContent = APIKeyForm.value;
+            });
+
+            const regexForm = document.getElementById('regexForm');
+            const regex_list = document.getElementById('regex_list');
+
+            regexForm.addEventListener('input', function() {
+                regex_list.textContent = regexForm.value;
+            });
+        });
+    </script>
+
+    <!-- <script>
+        document.getElementById("copyQueryButton").addEventListener("click", event => {
+            event.preventDefault();
+            var copy = document.getElementById("formatted_query_output").textContent;
+            var copyButton = document.getElementById("copyButton");
+
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copy);
+            copyButton.textContent = "Copied!";
+            copyButton.style.backgroundColor="#A9A9A9";
+        });
+    </script> -->
+
+
+    <!-- <script>
+        document.getElementById("copyResultsButton").addEventListener("click", event => {
+            event.preventDefault();
+            var copy = document.getElementById("formatted_query_output").textContent;
+            var copyButton = document.getElementById("copyButton");
+
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copy);
+            copyButton.textContent = "Copied!";
+            copyButton.style.backgroundColor="#A9A9A9";
+        });
+    </script> -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById("export_format").addEventListener("click", event => {
+                var export_format = document.getElementById("export_format");
+                var format = export_format.value;
+                console.log(format);
+                export_tags_list.textContent = format.toLowerCase();
+            });
+        });
+    </script>
+
+
+    
+{% endblock %}

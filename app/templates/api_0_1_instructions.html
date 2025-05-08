@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <span style="font-size:40px;">API Instructions for API_0.1</span>
+    <hr class="hr1">
+    <br>
+    <!-- Command Line API Section -->
+    <h2><a class="col-lg-3 customTextBoxSecondary" id="cli-api" style="font-size:30px; text-decoration: none;" href="#cli-api"><b>Command Line API</b></a></h2>
+    <br>
+    <br>
+    <h3><a id="cli-acquire-api-key" style="color: var(--access-primary); font-weight:bold;" href="#cli-acquire-api-key"><u>Acquiring an API Key</u></a></h3>
+        In order to query the API, you will need to have an API Key. Currently, API access is private: if you don't have a key, you will have to request one.<br>
+        <br>
+        These keys are being given out on a very limited basis. If you would like a key, please reach out to our team at UK's Center for Computational Sciences:<br>
+        <br>
+        James (Jim) Griffioen: griff@netlab.uky.edu<br>
+        Vikram Gazula: gazula@uky.edu<br>
+    <br>
+    <hr class="hr1">
+    <br>
+    <h3><a id="cli-api-use" style="color: var(--access-primary); font-weight:bold;" href="#cli-api-use"><u>Using the API</u></a></h3>
+        The URL for accessing our API is: <b>https://ara-db.ccs.uky.edu/API_0.1</b><br>
+    <br>
+        The basic syntax for querying the API is as follows:<br>
+    <br>
+
+    <div contenteditable="false" class="customTextBoxTertiary">
+        <code><b>Query RP:</b><br>
+            <span style="color: var(--access-quaternary);">curl https://ara-db.ccs.uky.edu/API_0.1/{API_KEY}/rp={RP}</span>
+        <br>
+        <b>Query Software:</b><br>
+            <span style="color: var(--access-quaternary);">curl https://ara-db.ccs.uky.edu/API_0.1/{API_KEY}/software={SOFTWARE_NAME}</span>
+        </code><br>
+        <code><b>Custom Query:</b><br>
+        <span style="color: var(--access-quaternary);">curl https://ara-db.ccs.uky.edu/API_0.1/{API_KEY}/search={CUSTOM_SEARCH}</span>
+    </code><br>
+    </div>
+
+    <br>
+        Here is a breakdown of this command:<br>
+    <br>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr class="table-primary customTable">
+                <th scope="col">Command</th>
+                <th scope="col">Description</th>
+                <th scope="col">Required/Optional</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="customRow1">
+                <td>curl</td>
+                <td>
+                    (Client for URL) is a tool for transferring data through network protocols. Wget and other similar commands will also work.
+                </td>
+                <td>Required</td>
+            </tr>
+            <tr class="customRow2">
+                <td>https://ara-db.ccs.uky.edu/API_0.1/</td>
+                <td>This is the 'Path' to the API.</td>
+                <td>Required</td>
+            </tr>
+            <tr class="customRow1">
+                <td>{API_KEY}</td>
+                <td>
+                    Once you've obtained an API Key from us, you will need to paste your <b>actual</b> key here each time you query the API.
+                    <br>
+                    Without a valid key, your request <I>will</I> be denied.<br>It is also <b>case-sensitive</b>.
+                </td>
+                <td>Required</td>
+            </tr>
+            <tr class="customRow2">
+                <td>rp={RP}</td>
+                <td>Replace {RP} with the group id(s) of the Resource Provider you are retrieving information for. This should be formatted as:
+                    <b>&ltrp_group_id<sub>1</sub>&gt+&ltrp_gruop_id<sub>n</sub>&gt</b>
+                    <br>
+                    <br>
+                    You can Find the complete list of group ids 
+                    <a href="https://github.com/access-ci-org/access-ci-ui/blob/resource-catalog/public/api/cider_resource_groups.json" target="_blank"> at this page</a>.
+                    <br><br>
+                    For example, if you want to grab all software on anvil and ookami, your query will be: <b>{url}/rp=anvil.purdue.access-ci.org+ookami.sbu.access-ci.org</b>
+                    <br><br>
+                    You can also use the rp names to query, so the following query would have the same result as above: <b>{url}/rp=anvil+ookami</b> 
+                    <br>
+                    <br>
+                    This is <b>not</b> case sensitive, i.e. 'anvil' and 'ANVIL' will be treated the same.
+                </td>
+                <td>Required</td>
+            </tr>
+            <tr class="customRow1">
+                <td>software={SOFTWARE_NAME}</td>
+                <td>
+                    Replace {SOFTWARE_NAME} with the name of the software you are retrieving information for. This should be formatted as:
+                    <b>&ltsoftware_name<sub>1</sub>&gt+&ltsoftware_name<sub>n</sub>&gt</b>
+                    <br>
+                    <br>
+                    For example, if you want to grab information for gaussian and abacas, your query will be: <b>{url}/software=gaussian+abacas</b>
+                    <br>
+                    <br>
+                    This is <b>not</b> case sensitive, i.e. 'Gaussian' and 'gaussian' will be treated the same.
+                </td>
+                <td>Required</td>
+            </tr>
+            <tr class="customRow2">
+                <td>search={CUSTOM_SEARCH}</td>
+                <td>Replace {CUSTOM_SEARCH} with the column-specific search you are retrieving information for. This should be formatted as:
+                    <b>&ltcolumn(value)&gt<sub>1</sub>+/&&ltcolumn(value)&gt<sub>n</sub></b>
+                    <br>
+                    <br>
+                    Examples:
+                    <br>Software on Anvil with research area Biology: <b>{url}/search=rp_name(anvil)&ai_research_area(biology)</b>
+                    <br>All software with 'fusion' in the description: <b>{url}/search=software_description(fusion)</b>
+                    <br>All software on FASTER and all software with modeling as a core feature: <b>{url}/search=rp_name(faster)+ai_core_features(modeling)</b>
+                    <br><br>
+                    This is <b>not</b> case sensitive
+                    <a href="https://access-sds.ccs.uky.edu:8080/" target="_blank"> here</a>.
+                    <br><br>
+                </td>
+                <td>Required</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+        By default, queries extract all the information about a software. However, if you are only interested in certain fields, there are some optional flags you may add to your query.
+    <br>
+        Include and Exclude are <b>mutually exclusive</b>, thus cannot be used in the same query.
+    <br>
+    <br>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr class="table-primary customTable">
+                <th>Flag</th>
+                <th>Description</th>
+                <th>Required/Optional</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="customRow1">
+                <td>include={COLUMN_NAMES}</td>
+                <td>
+                    Include this if you are only interested in certain columns, rather than the entire row of data.<br>
+                    Default is <b>ALL</b>.<br>
+                    Format as: <b>include=&ltcol<sub>1</sub>&gt+&ltcol<sub>n</sub>&gt</b>
+                    <br>
+                    <br>
+                    To grab only the RP name and software name for all software on FASTER: <b>{url}/rp=faster,include=rp_name+software_name</b>
+                </td>
+                <td>Optional</td>
+            </tr>
+            <tr class="customRow2">
+                <td>exclude={COLUMN_NAMES}</td>
+                <td>As an alternative, if you are interested in all but a few specific columns, you can exclude them instead.<br>
+                    Default is <b>NONE</b>.<br>
+                    Format as: <b>exclude=&ltcol<sub>1</sub>&gt+&ltcol<sub>n</sub>&gt</b>
+                    <br>
+                    <br>
+                    To grab all information except description on FASTER: <b>{url}/rp=faster,exclude=software_description</b>
+                </td>
+                <td>Optional</td>
+            </tr>
+            <tr class="customRow1">
+                <td>format={FORMAT}</td>
+                <td>
+                    You may specify the format you would like your results of your query. Current options are JSON, CSV, or HTML (an unstyled table).
+                    <br>
+                    Default is <b>JSON</b>.
+                </td>
+                <td>Optional</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <hr class="hr1">
+    <br>
+    <h3>
+        <a id="cli-api-examples" style="color: var(--access-primary); font-weight:bold;" href="#cli-api-examples">
+            <u>API Examples</u>
+        </a>
+    </h3>
+        Example query that will retrieve all the information in our database about 7z (remember to replace {API_KEY} with your personal API Key):<br>
+    <br>
+
+    <div contenteditable="false" class="customTextBoxTertiary">
+        <code><span style="color: black;">curl https://ara-db.ccs.uky.edu/API_0.1/{API_KEY}/software=7z</span></code><br>
+    </div>
+    <br>
+        Example of a query that will retrieve information on Anvil:<br>
+    <br>
+
+    <div contenteditable="false" class="customTextBoxTertiary">
+        <code><span style="color: black;">curl https://ara-db.ccs.uky.edu/API_0.1/{API_KEY}/rp=anvil</span></code><br>
+    </div>
+
+    <br>
+        Example of a query that will retrieve information on DARWIN and KyRIC, excluding some of the AI-generated information:
+    <br>
+    <br>
+
+    <div contenteditable="false" class="customTextBoxTertiary">
+        <code><span style="color: black;">
+            curl https://ara-db.ccs.uky.edu/API_0.1/{API_KEY}/rp=darwin.udel.access-ci.org+kyric.uky.access-ci.org,exclude=ai_description
+        </span></code>
+        <br>
+    </div>
+
+    <br>
+        Example of a query that will retrieve information on OOKAMI as a CSV file, but only including the RP name, software name, and the AI-generated software description:
+    <br>
+    <br>
+
+    <div contenteditable="false" class="customTextBoxTertiary">
+        <code>
+            <span style="color: black;">curl https://ara-db.ccs.uky.edu/API_0.1/{API_KEY}/rp=ookami,include=rp_name+software_name+ai_description,type=csv</span>
+        </code>
+        <br>
+    </div>
+
+    <br>
+        Example query for API_0.1 to perform a custom search combining RP and software name with OR condition:<br>
+    <br>
+    <div contenteditable="false" class="customTextBoxTertiary">
+        <code>
+            <span style="color: black;">curl https://ara-db.ccs.uky.edu/API_0.1/{API_KEY}/search=rp_name(ookami)&software_name(7z)+software_name(abacas)</span>
+        </code>
+        <br>
+    </div>
+    <br>
+    
+    <br>
+    <br>
+    <hr class="hr1">
+    <br>
+    <!-- Website API Section -->
+    <h2><a class="col-lg-2 customTextBoxSecondary" id="gui-api" style="font-size:30px; text-decoration: none;" href="#gui-api">
+        <b>Website API</b>
+    </a></h2>
+    <br>
+    <br>
+    <h3><a id="gui-acquire-api-key" style="color: var(--access-primary); font-weight:bold;" href="#gui-acquire-api-key">
+            <u>Acquiring an API Key</u>
+    </a></h3>
+        Just like the Command Line API, you will need to have an API Key in order to utilize the Website API. 
+        Currently, API access is private: if you don't have a key, you will have to request one.<br>
+    <br>
+        These keys are being given out on a very limited basis. 
+        If you would like a key, please reach out to the team at UK's Center for Computational Sciences:<br>
+    <br>
+        James (Jim) Griffioen: griff@netlab.uky.edu<br>
+        Vikram Gazula: gazula@uky.edu<br>
+    <br>
+    <hr class="hr1">
+    <br>
+    <h3><a id="gui-api-use" style="color: var(--access-primary); font-weight:bold;" href="#gui-api-use">
+        <u>Using the API</u>
+    </a></h3>
+        The Website's API is a mirror of the Command Line API: it is a tool that's been designed to help you build your API queries.
+    <br>
+    <br>
+        To help you learn how to use our API, the Website is preconfigured with all the options available, through the use of
+        a series of drop-down style menus that allow you to build your query piece by piece. 
+        Just like the Command Line API, not every option is required; if you opt not to select any Include or Exclude options,
+        the entire row of information will be called.<br>
+    <br>
+        Of note: the box labled 'API cURL Script' is dynamically updated as you select options. You do not need to interact with
+        this field: it's purpose is to show you the Command Line equivalent of your query, in case you wish to run it through
+        your terminal instead.
+    <br>
+{% endblock %}

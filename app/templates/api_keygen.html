@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1> Generate API Key</h1>
+    <hr class="hr1">
+    <br>
+    <form id='API_Key_Form' action="" method="post">
+        <!-- Security Provision -->
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col-2">
+                <span>{{ form.first_name.label }}</span>
+            </div>
+            <div class="col-4">
+                <span>{{ form.first_name(class_="form-string customTagifyLook", id="first_name_form") }}</span>
+                <br>
+                {%- for error in form.first_name.errors %}
+                    <span>{{ error }}</span>
+                {%- endfor %}
+            </div>
+            <div class="col-2">
+                <span>{{ form.last_name.label }}</span>
+            </div>
+            <div class="col-4">
+                <span>{{ form.last_name(class_="form-string customTagifyLook", id="last_name_form") }}</span>
+                <br>
+                {%- for error in form.last_name.errors %}
+                    <span>{{ error }}</span>
+                {%- endfor %}
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-2">
+                <span>{{ form.email.label }}</span>
+            </div>
+            <div class="col-4">
+                <span>{{ form.email(class_="form-string customTagifyLook", id="email_form") }}</span>
+                <br>
+                {%- for error in form.email.errors %}
+                    <span>{{ error }}</span>
+                {%- endfor %}
+            </div>
+            <div class="col-2">
+                <span>{{ form.organization.label }}</span>
+            </div>
+            <div class="col-4">
+                <span>{{ form.organization(class_="form-string customTagifyLook", id="organiation_form") }}</span>
+                <br>
+                {%- for error in form.organization.errors %}
+                    <span>{{ error }}</span>
+                {%- endfor %}
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 mx-0" style="text-align: center;">
+                {{ form.submit(class_="linkButton", id="apikey_submit") }}
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <br>
+        <hr class="hr1">
+        <br>
+        <div class="row">
+            <div class="col">
+                <span><h4><b>API Key:</b></h4></span>
+            </div>
+            <div class="col" style="text-align: right;">
+                <button id="copyButton">Copy</button>
+            </div>
+
+
+            <div class="customTextBoxTertiary" id="api_key_container">
+                {{ api_key }}
+            </div>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById("copyButton").addEventListener("click", event => {
+            event.preventDefault();
+            var copy = document.getElementById("api_key_container").textContent;
+            var copyButton = document.getElementById("copyButton");
+
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copy);
+            copyButton.textContent = "Copied!";
+            copyButton.style.backgroundColor="#A9A9A9";
+        });
+    </script>
+
+
+
+
+
+
+
+{% endblock %}

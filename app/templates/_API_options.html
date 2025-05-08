@@ -1,0 +1,55 @@
+<link rel="stylesheet" type="text/css" href="../static/css/api_options.css">
+
+
+<div class="container sticky-top" style="padding:5px; padding-right:0;">
+    <div class="row API_Options" style="padding:10px; padding-top:12px;">
+        <h3><b>API Options</b></h3>
+        <hr>
+        <div class="row">
+            <h5><b><u>Include/Exclude Columns:</u></b></h5>
+            <div class="col" id="include_exclude" style="margin-left: 8px;">
+                <div class="form-check form-check-inline" style="margin: 1px;">
+                    <input class="form-check-input" type="radio" name="includeRadioButtons" id="includeRadio" value="Include">
+                    <label class="form-check-label" for="includeRadio">Include</label>
+                </div>
+                <div class="form-check form-check-inline" style="margin: 1px;">
+                    <input class="form-check-input" type="radio" name="includeRadioButtons" id="excludeRadio" value="Exclude">
+                    <label class="form-check-label" for="excludeRadio">Exclude</label>
+                </div>
+                <div class="form-check form-check-inline" style="margin: 1px;">
+                    <input class="form-check-input" type="radio" name="includeRadioButtons" id="ieNoneRadio" value="None">
+                    <label class="form-check-label" for="ieNoneRadio">None</label>
+                </div>
+            </div>
+        </div>
+        <div class="row"><br></div>
+        <div class="row" style="display:none;">
+            <h5><b><u>Regular Expressions (Regex):</u></b></h5>
+            <div class="form-check form-switch" style="margin-left: 20px;">
+                <input class="form-check-input" type="checkbox" id="enableRegex">
+                <label class="form-check-label" for="enableRegex">Enable Regex Search</label>
+            </div>
+        </div>
+        <div class="row"><br></div>
+        <div class="row"style="display:none;">
+            <h5><b><u>Advanced Search Options:</u></b></h5>
+            <div class="form-check form-switch" style="margin-left: 20px;">
+                <input class="form-check-input" type="checkbox" id="rp_soft_andor">
+                <label class="form-check-label" for="rp_soft_andor">Search RP OR Software</label>
+            </div>
+        </div>
+        <div class="row">
+            <h5><b><u>RP/Software:</u></b></h5>
+            <div class="col" id="rp_software" style="margin-left: 8px;">
+                <div class="form-check form-check-inline" style="margin: 1px;">
+                    <input class="form-check-input" type="radio" name="rp_softRadioButtons" id="rpRadio" value="RP" checked>
+                    <label class="form-check-label" for="rpRadio">RP</label>
+                </div>
+                <div class="form-check form-check-inline" style="margin: 1px;">
+                    <input class="form-check-input" type="radio" name="rp_softRadioButtons" id="softwareRadio" value="Software">
+                    <label class="form-check-label" for="softwareRadio">Software</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

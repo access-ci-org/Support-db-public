@@ -1,0 +1,205 @@
+:root {
+    /* github.com/access-ci-org/Web_and_Branding/ */
+    --access-primary            : #1A5B6E;
+    --access-secondary          : #107180;
+    --access-tertiary           : #48C0B9;
+    --access-quaternary         : #232323;
+    --access-bg-primary         : #ECF9F8;
+    --access-bg-secondary       : #F2F2F2;
+    --access-accent-primary     : #FFC42D;
+    --access-accent-secondary   : #F07537;
+
+    --tagify-dd-bg-color        : var(--access-primary);
+    --tagify-dd-color-primary   : var(--access-secondary); 
+    --tagify-dd-text-color      : var(--access-bg-secondary);
+}
+
+/* Used in cURL example blocks */
+pre {
+    white-space : pre-wrap;     /* Ensures text wraps within the block */
+    word-wrap   : break-word;   /* Prevents overflow */
+}
+
+head, body, footer{
+    margin      : auto;
+    padding     : 0;
+    width       : 100%;
+    font-size   : 18px;
+    font-family : Archivo, sans-serif;
+    color       : var(--access-quaternary);
+}
+
+.footerBanner{
+    top                 : calc(100vh - 20px);
+    height              : 600px;
+    background-color    : var(--access-primary);
+}
+
+/* Blue HR */
+.hr1 {
+    border              : 4px solid;
+    border-radius       : 4px;
+    opacity: 1;
+    /* Various browsers use various options */
+    background-color    : var(--access-accent-primary); /* Chrome-based */
+    color               : var(--access-accent-primary); /* Firefox      */
+    border-color        : var(--access-accent-primary); /* Older IE     */
+}
+
+/* Yellow HR */
+.hr2 {
+    border              : 4px solid;
+    border-radius       : 4px;
+    opacity: 1;
+    /* Various browsers use various options */
+    background-color    : var(--access-secondary); /* Chrome-based */
+    color               : var(--access-secondary); /* Firefox      */
+    border-color        : var(--access-secondary); /* Older IE     */
+}
+
+.navbar, a.navbar-brand, a.nav-link{
+    font-family         : Archivo, sans-serif;
+    font-weight         : bolder;
+    font-size           : 20px;
+    display             : flex;
+    align-items         : center;
+    background-color    : var(--access-primary) !important;
+    color               : var(--access-bg-secondary);
+}
+
+a.navbar-brand:hover, a.nav-link:hover{
+    color: var(--access-tertiary);
+}
+
+.customSuggestionsList > div{
+    max-height      : 200px;
+    min-height      : 50px;
+    max-width       : 400px;
+    min-width       : 100px;
+    border          : 2px solid var(--access-quaternary);
+    border-radius   : 4px;
+    overflow        : auto;
+}
+
+.customSuggestionsList .empty{
+    color       : var(--access-bg-primary);
+    font-size   : 20px;
+    text-align  : center;
+    padding     : 1em;
+    max-width   : 400px;
+}
+
+.tagify{
+    border-radius   : 4px;
+    border-color    : var(--access-secondary);
+}
+
+/* Tagify Input Box */
+.tagify__input {
+    width       : 200px;
+    max-width   : 200px;
+}
+
+.customTagifyLook{
+    --tag-hover         : var(--access-primary);
+    --tag-bg            : var(--access-tertiary);
+    --tag-text-color    : var(--access-bg-secondary);
+    --tag-remove-bg     : rgba(255, 0, 0, 0.5);
+    --tag--max-width    : 300px;
+
+    background-color    : var(--access-bg-primary);
+    border-width        : 1px;
+    border-radius       : 4px;
+}
+
+.resetButton{
+    background          : linear-gradient(to bottom, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-color    : rgb(225, 0, 0);
+    border              : 3px rgb(125, 0, 0) outset;
+    border-radius       : 4px;
+    color               : white;
+}
+
+/* Dark Blue Box */
+.customTextBoxMain{
+    background          : linear-gradient(to top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-color    : var(--access-primary);
+    color               : var(--access-bg-secondary);
+    padding             : 2%;
+    border-radius       : 2px;
+}
+
+/* Mid Blue Box */
+.customTextBoxSecondary{
+    background          : linear-gradient(to top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-color    : var(--access-secondary);
+    color               : var(--access-bg-primary);
+    padding             : 2%;
+    border-radius       : 2px;
+}
+
+/* Light Blue Box */
+.customTextBoxTertiary{
+    background-color    : var(--access-bg-primary);
+    color               : var(--access-quaternary);
+    padding             : 3%;
+    border              : 1px solid var(--access-quaternary);
+    border-radius       : 4px;
+    font-size           : 20px;
+    text-align          : center; 
+    justify-content     : center;
+    word-wrap           : break-word;
+}
+
+.customTextBoxWhite{
+    background-color    : var(--access-bg-secondary);
+    color               : var(--access-quaternary);
+    padding             : 1%;
+    border              : 1px solid var(--access-quaternary);
+    border-radius       : 4px;
+    font-size           : 20px;
+    text-align          : center;
+    justify-content     : center;
+    word-wrap           : break-word;
+}
+
+.linkButton{
+    background-color    : var(--access-accent-primary);
+    color               : var(--access-quaternary);
+    margin              : 0 auto;
+    padding             : 10px;
+    padding-left        : 30px;
+    padding-right       : 30px;
+    font-size           : 16px;
+    font-weight         : bold;
+    border-radius       : 2px;
+    border              : 4px outset;
+    border-color        : var(--access-accent-primary);
+}
+
+.linkButton:hover{
+    background-color    : var(--access-bg-secondary);
+    border-color        : var(--access-quaternary);
+    color               : var(--access-quaternary);
+}
+
+.customTable{
+    --bs-table-bg           : var(--access-secondary);
+    --bs-table-border-color : var(--access-primary);
+    --bs-table-color        : var(--access-bg-secondary);
+    border-color            : var(--access-primary);
+}
+
+.customRow1{
+    --bs-table-bg           : var(--access-bg-primary);
+    --bs-table-border-color : var(--access-primary);
+    --bs-table-color        : var(--access-quaternary);
+    border-color            : var(--access-primary);
+}
+
+.customRow2{
+    --bs-table-bg           : var(--access-bg-secondary);
+    --bs-table-border-color : var(--access-primary);
+    --bs-table-color        : var(--access-quaternary);
+    border-color            : var(--access-primary);
+}

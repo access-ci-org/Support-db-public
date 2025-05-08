@@ -1,0 +1,39 @@
+<div class="row no-gutters">
+    <div class="col-md-2">
+        <!-- EXPORT CSV -->
+        <form action="/export/csv" method="post" style="display:inline;">
+            <input type="hidden" name="csv_results" id="csv_results_data" value="">
+            <input type="submit" id="csv_export" value="Export to CSV" style="display: none;" class="linkButton">
+        </form>
+    </div>
+    <div class="col-md-2">
+        <!-- EXPORT HTML-->
+        <form action="/export/html" method="post" target="_blank" style="display:inline;">
+            <input type="hidden" name="html_results" id="html_results_data" value="">
+            <input type="submit" id="html_export" value="Export to HTML" style="display: none;" class="linkButton">
+        </form>
+    </div>
+    <div class="col-md-2">
+        <!-- EXPORT JSON -->
+        <form action="/export/json" method="post" style="display:inline;">
+            <input type="hidden" name="json_results" id="json_results_data" value="">
+            <input type="submit" id="json_export" value="Export to JSON" style="display: none;" class="linkButton">
+        </form>
+    </div>
+</div>
+
+<script>
+    // Helper Functions
+    document.getElementById('csv_export').addEventListener('click', function() {
+        var jsonOutput = document.getElementById('formatted_query_output').innerText; // Get JSON from the div
+        document.getElementById('csv_results_data').value = jsonOutput; // Set the hidden input's value
+    });
+    document.getElementById('html_export').addEventListener('click', function() {
+        var jsonOutput = document.getElementById('formatted_query_output').innerText; // Get JSON from the div
+        document.getElementById('html_results_data').value = jsonOutput; // Set the hidden input's value
+    });
+    document.getElementById('json_export').addEventListener('click', function() {
+        var jsonOutput = document.getElementById('formatted_query_output').innerText; // Get JSON from the div
+        document.getElementById('json_results_data').value = jsonOutput; // Set the hidden input's value
+    });
+</script>

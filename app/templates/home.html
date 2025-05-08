@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row mx-0">
+        <div class="col-3 customTextBoxMain">
+            <br>
+            <h1><b>Welcome!</b></h1>
+            <br>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div class="row mx-0">
+        <div class="col-3 customTextBoxSecondary" style="font-size:16px;">
+            <span style="font-weight: bold; font-size: 22px;">Instructions for using the API:</span><br>
+            <br>
+            <a class="btn btn-primary btn-lg linkButton" href="{{ url_for('api_0_instructions') }}">Read API 0</a>
+            <br><br>
+            <a class="btn btn-primary btn-lg linkButton" href="{{ url_for('api_0_1_instructions') }}">Read API 0.1</a>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-3 customTextBoxSecondary" style="font-size:16px;">
+            <span style="font-weight: bold; font-size: 22px;">Looking for the API?</span><br>
+            <br>
+            <a class="btn btn-primary btn-lg linkButton" href="{{ url_for('API') }}">Go to API</a>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-3 customTextBoxSecondary" style="font-size:16px;">
+            <span style="font-weight: bold; font-size: 22px;">Additional Links:</span><br>
+            <br>
+            <a class="btn btn-primary btn-lg linkButton" href="https://access-ara.ccs.uky.edu:8080/">Access Resource Advisor</a>
+            <br><br>
+            <a class="btn btn-primary btn-lg linkButton" href="https://access-sds.ccs.uky.edu:8080/">Software Discovery Service</a>
+        </div>
+    </div>
+{% endblock %}
+
+
