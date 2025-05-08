@@ -17,7 +17,7 @@ jobs:
       # Must clone the directory into a file outside of where the current public repo is
       # This prevents overlapping directory issue with rclone (exit code 7)
       run: |
-        mkdir -p ../priavte-sds-repo
+        mkdir -p ../private-db-repo
         git clone https://sandesh-l:${{ secrets.PAT }}@github.com/access-ci-org/Support-ARA-DB.git ../private-db-repo
         
     - name: Install rclone
